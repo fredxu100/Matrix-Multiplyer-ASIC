@@ -1,0 +1,102 @@
+DEF read, Line 102687 (Error): Via name "-" unknown in route.
+DEF read, Line 102687 (Error): Via name "VPWR" unknown in route.
+DEF read, Line 102687 (Error): Cannot parse X coordinate.
+DEF read, Line 102687 (Error): Cannot parse Y coordinate.
+DEF read, Line 102687 (Error): Cannot parse Y coordinate.
+DEF read, Line 107887 (Error): Via name "END" unknown in route.
+DEF read, Line 107887 (Error): Via name "SPECIALNETS" unknown in route.
+DEF read, Line 107888 (Error): Via name "NETS" unknown in route.
+DEF read, Line 107888 (Error): Via name "41368" unknown in route.
+DEF read, Line 107890 (Error): Bad width in special net
+DEF read, Line 107890 (Error): Route has via name "3220" but no points!
+DEF read, Line 107890 (Error): Route has via name "629340" but no points!
+DEF read, Line 107890 (Error): Route has via name "0" but no points!
+DEF read, Line 107890 (Error): Route has via name ")" but no points!
+DEF read, Line 107890 (Error): No reference point for "*" wildcard
+DEF read, Line 107891 (Error): Bad width in special net
+DEF read, Line 107891 (Error): Route has via name "4140" but no points!
+DEF read, Line 107891 (Error): Route has via name "627980" but no points!
+DEF read, Line 107891 (Error): Route has via name ")" but no points!
+DEF read, Line 107891 (Error): No reference point for "*" wildcard
+DEF read, Line 107892 (Error): Bad width in special net
+DEF read, Line 107892 (Error): Route has via name "4140" but no points!
+DEF read, Line 107892 (Error): Route has via name "627980" but no points!
+DEF read, Line 107892 (Error): Route has via name ")" but no points!
+DEF read, Line 107892 (Error): No reference point for "*" wildcard
+DEF read, Line 107893 (Error): Bad width in special net
+DEF read, Line 107893 (Error): Route has via name "7130" but no points!
+DEF read, Line 107893 (Error): Route has via name "626790" but no points!
+DEF read, Line 107893 (Error): Route has via name ")" but no points!
+DEF read, Line 107893 (Error): No reference point for "*" wildcard
+DEF read, Line 107894 (Error): Bad width in special net
+DEF read, Line 107894 (Error): Route has via name "7130" but no points!
+DEF read, Line 107894 (Error): Route has via name "627980" but no points!
+DEF read, Line 107894 (Error): Route has via name ")" but no points!
+DEF read, Line 107894 (Error): Route has via name "M2M3_PR" but no points!
+DEF read, Line 107895 (Error): Bad width in special net
+DEF read, Line 107895 (Error): Route has via name "7130" but no points!
+DEF read, Line 107895 (Error): Route has via name "626790" but no points!
+DEF read, Line 107895 (Error): Route has via name ")" but no points!
+DEF read, Line 107895 (Error): Route has via name "L1M1_PR" but no points!
+DEF read, Line 107896 (Error): Bad width in special net
+DEF read, Line 107896 (Error): Route has via name "7130" but no points!
+DEF read, Line 107896 (Error): Route has via name "626790" but no points!
+DEF read, Line 107896 (Error): Route has via name ")" but no points!
+DEF read, Line 107896 (Error): Route has via name "M1M2_PR" but no points!
+DEF read, Line 107898 (Error): Bad width in special net
+DEF read, Line 107898 (Error): Route has via name "3220" but no points!
+DEF read, Line 107898 (Error): Route has via name "459340" but no points!
+DEF read, Line 107898 (Error): Route has via name "0" but no points!
+DEF read, Line 107898 (Error): Route has via name ")" but no points!
+DEF read, Line 107898 (Error): No reference point for "*" wildcard
+DEF read, Line 107899 (Error): Bad width in special net
+DEF read, Line 107899 (Error): Route has via name "13800" but no points!
+DEF read, Line 107899 (Error): Route has via name "459340" but no points!
+DEF read, Line 107899 (Error): Route has via name ")" but no points!
+DEF read, Line 107899 (Error): No reference point for "*" wildcard
+DEF read, Line 107900 (Error): Bad width in special net
+DEF read, Line 107900 (Error): Route has via name "13800" but no points!
+DEF read, Line 107900 (Error): Route has via name "462060" but no points!
+DEF read, Line 107900 (Error): Route has via name ")" but no points!
+DEF read, Line 107900 (Error): No reference point for "*" wildcard
+DEF read, Line 107901 (Error): Bad width in special net
+DEF read, Line 107901 (Error): Route has via name "20470" but no points!
+DEF read, Line 107901 (Error): Route has via name "462060" but no points!
+DEF read, Line 107901 (Error): Route has via name ")" but no points!
+DEF read, Line 107901 (Error): No reference point for "*" wildcard
+DEF read, Line 107902 (Error): Bad width in special net
+DEF read, Line 107902 (Error): Route has via name "20930" but no points!
+DEF read, Line 107902 (Error): Route has via name "462060" but no points!
+DEF read, Line 107902 (Error): Route has via name ")" but no points!
+DEF read, Line 107902 (Error): No reference point for "*" wildcard
+DEF read, Line 107903 (Error): Bad width in special net
+DEF read, Line 107903 (Error): Route has via name "20930" but no points!
+DEF read, Line 107903 (Error): Route has via name "463590" but no points!
+DEF read, Line 107903 (Error): Route has via name ")" but no points!
+DEF read, Line 107903 (Error): No reference point for "*" wildcard
+DEF read, Line 107904 (Error): Bad width in special net
+DEF read, Line 107904 (Error): Route has via name "20470" but no points!
+DEF read, Line 107904 (Error): Route has via name "462060" but no points!
+DEF read, Line 107904 (Error): Route has via name ")" but no points!
+DEF read, Line 107904 (Error): Route has via name "M2M3_PR" but no points!
+DEF read, Line 107905 (Error): Bad width in special net
+DEF read, Line 107905 (Error): Route has via name "20930" but no points!
+DEF read, Line 107905 (Error): Route has via name "463590" but no points!
+DEF read, Line 107905 (Error): Route has via name ")" but no points!
+DEF read, Line 107905 (Error): Route has via name "M1M2_PR" but no points!
+DEF read, Line 107906 (Error): Bad width in special net
+DEF read, Line 107906 (Error): Route has via name "23230" but no points!
+DEF read, Line 107906 (Error): Route has via name "463590" but no points!
+DEF read, Line 107906 (Error): Route has via name ")" but no points!
+DEF read, Line 107906 (Error): Route has via name "L1M1_PR" but no points!
+DEF read, Line 107908 (Error): Bad width in special net
+DEF read, Line 107908 (Error): Route has via name "3220" but no points!
+DEF read, Line 107908 (Error): Route has via name "374340" but no points!
+DEF read, Line 107908 (Error): Route has via name "0" but no points!
+DEF read, Line 107908 (Error): Route has via name ")" but no points!
+DEF read, Line 107908 (Error): No reference point for "*" wildcard
+DEF read, Line 107909 (Error): Bad width in special net
+DEF read, Line 107909 (Error): Route has via name "5290" but no points!
+DEF read, Line 107909 (Error): Route has via name "374340" but no points!
+DEF Read:  Further errors will not be reported.
+DEF Read: encountered 3339563 errors total.

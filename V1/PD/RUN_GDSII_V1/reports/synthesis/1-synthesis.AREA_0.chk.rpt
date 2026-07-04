@@ -1,0 +1,45 @@
+
+64. Executing CHECK pass (checking for obvious problems).
+Checking module axi_wrapper...
+Warning: Wire axi_wrapper.\WREADY is used but has no driver.
+Warning: Wire axi_wrapper.\RVALID is used but has no driver.
+Warning: Wire axi_wrapper.\RRESP [1] is used but has no driver.
+Warning: Wire axi_wrapper.\RRESP [0] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [31] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [30] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [29] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [28] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [27] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [26] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [25] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [24] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [23] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [22] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [21] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [20] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [19] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [18] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [17] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [16] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [15] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [14] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [13] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [12] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [11] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [10] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [9] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [8] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [7] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [6] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [5] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [4] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [3] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [2] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [1] is used but has no driver.
+Warning: Wire axi_wrapper.\RDATA [0] is used but has no driver.
+Warning: Wire axi_wrapper.\BVALID is used but has no driver.
+Warning: Wire axi_wrapper.\BRESP [1] is used but has no driver.
+Warning: Wire axi_wrapper.\BRESP [0] is used but has no driver.
+Warning: Wire axi_wrapper.\AWREADY is used but has no driver.
+Warning: Wire axi_wrapper.\ARREADY is used but has no driver.
+Found and reported 41 problems.
