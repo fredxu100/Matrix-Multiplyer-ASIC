@@ -1,0 +1,9 @@
+INPUTS:  clk, rst, en
+         [7:0] ain, bin
+OUTPUTS: [7:0] aout, bout,
+         [24:0] accumulator
+
+rst == 1: all output values will be reset to '0
+
+en == 1: accumulator += ain * bin, aout = ain, bout = bin
+   **MAC will only accumulate and move data if enabled 
