@@ -52,6 +52,7 @@ module MP_v3(
             A <= '{default: '0};
             B <= '{default: '0};
             load_counter <= '0;
+            $display("MP_V3 RST ENABLED");
         end else if (en) begin
             A[load_counter] <= '{Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
             B[load_counter] <= '{Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
@@ -78,22 +79,30 @@ module MP_v3(
     logic [2:0] i;
     always_ff @(posedge clk) begin
         if (rst) begin
-            A_sys_in <= '{default : 0};
-            B_sys_in <= '{default : 0};
             i <= '0;
-        end else if (en) begin //sys_en logic, make sure that the delay is CORRECT
-             for (int j = 0; j < 8; j++) begin 
-                if (i < j) begin
-                    A_sys_in[j] <= A[j][8 + i - j];
-                    B_sys_in[j] <= B[j][8 + i - j]; 
-                end
-                else begin
-                    A_sys_in[j] <= A[j][i - j];
-                    B_sys_in[j] <= B[j][i - j];
-                end
-            end
+        end else if (sys_en) begin // FIX: must wait for sys_en (buffer is valid), not raw en
             if (i != 3'b111) i <= i + 1'b1;
             else i <= '0;
+        end
+    end
+
+    // FIX: combinational readout - no extra register stage.
+    // en_cycles/mac_en in systollic_v3 react to sys_en the instant it asserts,
+    // so A_sys_in/B_sys_in must be valid that SAME cycle, not one cycle later.
+    always_comb begin
+        for (int j = 0; j < 8; j++) begin
+            if (!sys_en) begin
+                A_sys_in[j] = '0;
+                B_sys_in[j] = '0;
+            end
+            else if (i < j) begin
+                A_sys_in[j] = A[j][8 + i - j];
+                B_sys_in[j] = B[j][8 + i - j];
+            end
+            else begin
+                A_sys_in[j] = A[j][i - j];
+                B_sys_in[j] = B[j][i - j];
+            end
         end
     end
 endmodule

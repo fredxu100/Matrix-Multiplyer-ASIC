@@ -10,7 +10,7 @@ class MP_scoreboard extends uvm_scoreboard;
     uvm_analysis_imp_pkt #(pkt_tx, MP_scoreboard) pkt_imp;
 
     MP_reference rf_arr [4];
-    int load_delay_cnt [4];
+    int load_delay_cnt [4]; //used to delay scb to align with actual
     int load_counter = 0;
     int contributors;
 
@@ -46,7 +46,7 @@ class MP_scoreboard extends uvm_scoreboard;
 
     function void write_pkt (pkt_tx mon_tx);
         if (mon_tx.rst) begin
-            $display("RST ENABLED");
+            $display("SSCB RST ENABLED");
             foreach (rf_arr[i]) begin
                 matrix_tx temp_mat = new("temp_mat");
                 rf_arr[i] = new(temp_mat);
@@ -57,7 +57,7 @@ class MP_scoreboard extends uvm_scoreboard;
 
         foreach (rf_arr[i]) begin
             if (i < load_counter && mon_tx.en) begin
-                if (load_delay_cnt[i] >= 2) begin
+                if (load_delay_cnt[i] >= 1) begin
                     rf_arr[i].stream_output();
                     //$display("SCB: rf_arr[%0d] results: %p", i, rf_arr[i].pkt.results);
                     //$display("Active Index: %p, Pipeline Depth %d\n", rf_arr[i].active_idx, rf_arr[i].pipeline_counter);

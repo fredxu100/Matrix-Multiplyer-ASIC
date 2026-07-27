@@ -51,7 +51,7 @@ module systollic_v3(
     always_ff @(posedge clk) begin
         if (rst) begin
             en_cycles <= '0;
-            mac_en <= '{default: 0};
+            $display("SYSTOLLIC RST ENABLED");
         end else if (en) begin //UPDATE: defend against stall corruptions
             if (en_cycles < 5'd23) 
                 en_cycles <= en_cycles + 1'b1;
@@ -59,9 +59,10 @@ module systollic_v3(
                 en_cycles <= '0;
         end
 
-        $display("Sys Ain %p, Sys Bin %p", Ain, Bin);
-        /*$display("MAC [0,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d", row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
-        $display("MAC [7,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[7][0], col[7][0], internal_results[7][0], internal_depths[7][0], mac_en[7][0]);*/
+        //$display("Sys Ain %p, Sys Bin %p", Ain, Bin);
+        //$display("Sys MAC [0,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
+
+        //$display("MAC [7,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[7][0], col[7][0], internal_results[7][0], internal_depths[7][0], mac_en[7][0]);*/
 
     end
 
@@ -70,9 +71,8 @@ module systollic_v3(
     //Assign each mac_en "wavefront" to corresponding mac_en_counter value
     always_comb begin
         // 1. Default assignments to prevent synthesis latches
-        for (int i = 0; i < 8; i++) begin
-            results[i] = '0;
-        end
+        mac_en = '{default: 0};
+        results = '{default: 0};
 
         // 2. Combined Enable & Streaming Logic
         for (int i = 0; i < 8; i++) begin

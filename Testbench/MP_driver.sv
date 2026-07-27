@@ -29,6 +29,7 @@ class MP_driver extends uvm_driver #(matrix_tx);
         super.run_phase(phase);
  
         // Initial reset state (before the first clock edge)
+        @(vif.drv_cb);
         vif.drv_cb.Ain1 <= '0;
         vif.drv_cb.Bin1 <= '0;
         vif.drv_cb.Ain2 <= '0;
@@ -48,9 +49,9 @@ class MP_driver extends uvm_driver #(matrix_tx);
 
             // Wait for the clock BEFORE driving anything
             for (int i = 0; i < 8; i++) begin         
-                if (i == 0) matrix_ap.write(tx);
 
                 @(vif.drv_cb); //WAIT FOR NEXT CLOCK CYCLE!!!!
+                if (i == 0) matrix_ap.write(tx);
 
                 //splitting up values - drive through the clocking block, not the bare signal
                 vif.drv_cb.Ain1 <= {tx.A_matrix[i][3], tx.A_matrix[i][2], tx.A_matrix[i][1], tx.A_matrix[i][0]};
