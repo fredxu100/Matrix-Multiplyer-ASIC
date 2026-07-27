@@ -10,23 +10,22 @@ module MAC_v3 (
     //systollic array passes en to individual MAC2
 
     // 1. Data Passthrough (Registers)
-    logic depth_delay; //DRIVER LOGIC RESET TEMP
     always_ff @(posedge clk) begin
         if (rst) begin //clear aout/bout if rst
             matrix_depth <= '0;
-            depth_delay <= '0;
             aout <= '0;
             bout <= '0;
         end else if (en) begin //if enabled, pass in to out
             aout <= ain;
             bout <= bin;
-            if(matrix_depth != 3'b111 && depth_delay)
+            if(matrix_depth != 3'b111)
                 matrix_depth <= matrix_depth + 1'b1;
             else begin
-                depth_delay <= 1'b1;
                 matrix_depth <= '0;
             end
         end
+
+        //$display("MAC| Ain: %0d, Bin %0d, En %0d, Rst %0d", ain, bin, en, rst);
     end
 
     logic [15:0] mul_out;

@@ -59,8 +59,8 @@ module systollic_v3(
                 en_cycles <= '0;
         end
 
-        /*$display("Sys Ain %p, Sys Bin %p", Ain, Bin);
-        $display("MAC [0,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d", row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
+        $display("Sys Ain %p, Sys Bin %p", Ain, Bin);
+        /*$display("MAC [0,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d", row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
         $display("MAC [7,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[7][0], col[7][0], internal_results[7][0], internal_depths[7][0], mac_en[7][0]);*/
 
     end

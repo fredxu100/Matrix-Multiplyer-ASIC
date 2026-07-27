@@ -42,10 +42,11 @@ module MP_v3(
         end
     end
 
+
     //--------------------LOAD LOGIC-----------------------//
     //UPDATE: Loading logic is now pipelined, does not stall
     //counter loads rows of A/B depending on counter value
-    logic [2:0] load_counter;
+    logic [2:0] load_counter = '0;
     always_ff @(posedge clk) begin
         if (rst) begin
             A <= '{default: '0};
@@ -60,10 +61,10 @@ module MP_v3(
                 $display("Ain2: %0d, %0d, %0d, %0d", Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0]);
                 $display("Bin1: %0d, %0d, %0d, %0d", Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]);
                 $display("Bin2: %0d, %0d, %0d, %0d", Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0]);*/
-                /*if (load_counter == '0) begin
+                if (load_counter == '0) begin
                     $display("A: %p", A);
                     $display ("B: %p", B);
-                end*/
+                end
             end else begin 
                 load_counter <= '0;
             end
@@ -80,7 +81,7 @@ module MP_v3(
             A_sys_in <= '{default : 0};
             B_sys_in <= '{default : 0};
             i <= '0;
-        end else if (sys_en) begin //sys_en logic, make sure that the delay is CORRECT
+        end else if (en) begin //sys_en logic, make sure that the delay is CORRECT
              for (int j = 0; j < 8; j++) begin 
                 if (i < j) begin
                     A_sys_in[j] <= A[j][8 + i - j];

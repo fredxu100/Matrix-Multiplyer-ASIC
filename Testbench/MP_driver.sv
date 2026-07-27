@@ -35,6 +35,10 @@ class MP_driver extends uvm_driver #(matrix_tx);
         vif.drv_cb.Bin2 <= '0;
         vif.drv_cb.en  <= '0;
         vif.drv_cb.rst <= 1'b1;
+
+        @(vif.drv_cb);
+        vif.drv_cb.rst <= 1'b0;
+        @(vif.drv_cb);   // let rst=0 be sampled cleanly one cycle before en/data ever rise
  
         forever begin
             seq_item_port.get_next_item(tx);
@@ -43,10 +47,10 @@ class MP_driver extends uvm_driver #(matrix_tx);
             
 
             // Wait for the clock BEFORE driving anything
-            for (int i = 0; i < 8; i++) begin            
-                @(vif.drv_cb); //WAIT FOR NEXT CLOCK CYCLE!!!!
-                
+            for (int i = 0; i < 8; i++) begin         
                 if (i == 0) matrix_ap.write(tx);
+
+                @(vif.drv_cb); //WAIT FOR NEXT CLOCK CYCLE!!!!
 
                 //splitting up values - drive through the clocking block, not the bare signal
                 vif.drv_cb.Ain1 <= {tx.A_matrix[i][3], tx.A_matrix[i][2], tx.A_matrix[i][1], tx.A_matrix[i][0]};
