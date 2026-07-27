@@ -10,7 +10,7 @@ class MP_scoreboard extends uvm_scoreboard;
     uvm_analysis_imp_pkt #(pkt_tx, MP_scoreboard) pkt_imp;
 
     MP_reference rf_arr [4];
-    int load_delay_cnt [4]; //used to delay scb to align with actual
+    int load_delay_cnt [4];
     int load_counter = 0;
     int contributors;
 
@@ -46,7 +46,7 @@ class MP_scoreboard extends uvm_scoreboard;
 
     function void write_pkt (pkt_tx mon_tx);
         if (mon_tx.rst) begin
-            $display("SSCB RST ENABLED");
+            $display("RST ENABLED");
             foreach (rf_arr[i]) begin
                 matrix_tx temp_mat = new("temp_mat");
                 rf_arr[i] = new(temp_mat);

@@ -80,12 +80,9 @@ module systollic_v3(
                 // Enable PEs during their active 8-cycle window
                 if (en_cycles >= (i + j) && en_cycles < (i + j + 8) && (en_cycles != '0 || en)) 
                     mac_en[i][j] = 1'b1;
-
-                //TEMP CHANGE TO 9 TO FIT DRIVER ENABLE LOGIC
-                // Stream results out row-by-row
-                if (en_cycles == (i + j + 9))
-                    results[i] = internal_results[i][j];
             end
+            if((en_cycles - 8) > i)
+                results[i] = internal_results[i][(en_cycles - i - 1) % 8]
         end
     end
 
