@@ -58,16 +58,7 @@ class MP_driver extends uvm_driver #(matrix_tx);
                 vif.drv_cb.Ain2 <= {tx.A_matrix[i][7], tx.A_matrix[i][6], tx.A_matrix[i][5], tx.A_matrix[i][4]};
                 vif.drv_cb.Bin1 <= {tx.B_matrix[i][3], tx.B_matrix[i][2], tx.B_matrix[i][1], tx.B_matrix[i][0]};
                 vif.drv_cb.Bin2 <= {tx.B_matrix[i][7], tx.B_matrix[i][6], tx.B_matrix[i][5], tx.B_matrix[i][4]};
-
-                /*temp_Ain1 = '{tx.A_matrix[i][3], tx.A_matrix[i][2], tx.A_matrix[i][1], tx.A_matrix[i][0]};
-                temp_Ain2 = '{tx.A_matrix[i][7], tx.A_matrix[i][6], tx.A_matrix[i][5], tx.A_matrix[i][4]};
-                temp_Bin1 = '{tx.B_matrix[i][3], tx.B_matrix[i][2], tx.B_matrix[i][1], tx.B_matrix[i][0]};
-                temp_Bin2 = '{tx.B_matrix[i][7], tx.B_matrix[i][6], tx.B_matrix[i][5], tx.B_matrix[i][4]};
-
-                $display("%0d: Ain1 = %p, Ain2 = %p", i, temp_Ain1, temp_Ain2);
-                $display("%0d: Bin1 = %p, Bin2 = %p", i, temp_Bin1, temp_Bin2);*/
-
-
+                
                 vif.drv_cb.rst  <= tx.rst;
                 vif.drv_cb.en   <= tx.en;
             end

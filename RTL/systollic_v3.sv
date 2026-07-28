@@ -60,8 +60,7 @@ module systollic_v3(
         end
 
         //$display("Sys Ain %p, Sys Bin %p", Ain, Bin);
-        //$display("Sys MAC [0,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
-
+        $display("Sys MAC [0,0]: Cycle: %0d, Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", en_cycles, row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
         //$display("MAC [7,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[7][0], col[7][0], internal_results[7][0], internal_depths[7][0], mac_en[7][0]);*/
 
     end
@@ -78,11 +77,13 @@ module systollic_v3(
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin
                 // Enable PEs during their active 8-cycle window
-                if (en_cycles >= (i + j) && en_cycles < (i + j + 8) && (en_cycles != '0 || en)) 
+                if (en_cycles >= (i + j) && (en_cycles != '0 || en)) 
                     mac_en[i][j] = 1'b1;
             end
-            if((en_cycles - 8) > i)
-                results[i] = internal_results[i][(en_cycles - i - 1) % 8]
+
+
+            if((en_cycles >= (i+8)))
+                results[i] = internal_results[i][(en_cycles - i) % 8];
         end
     end
 

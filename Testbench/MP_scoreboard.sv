@@ -57,7 +57,7 @@ class MP_scoreboard extends uvm_scoreboard;
 
         foreach (rf_arr[i]) begin
             if (i < load_counter && mon_tx.en) begin
-                if (load_delay_cnt[i] >= 1) begin
+                if (load_delay_cnt[i] >= 0) begin
                     rf_arr[i].stream_output();
                     //$display("SCB: rf_arr[%0d] results: %p", i, rf_arr[i].pkt.results);
                     //$display("Active Index: %p, Pipeline Depth %d\n", rf_arr[i].active_idx, rf_arr[i].pipeline_counter);
