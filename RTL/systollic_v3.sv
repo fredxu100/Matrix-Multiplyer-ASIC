@@ -18,6 +18,8 @@ module systollic_v3(
     logic [18:0] internal_results [7:0][7:0]; //USED TO HOLD MAC ACCUMULATOR VALUES TO BE STORED INTO RESULTS
     logic [2:0] internal_depths [7:0][7:0]; //USED TO HOLD MAC MATRIX DEPTH COUNTERS
 
+    logic cycle_pass; //used to prevent results to reset to 0 after 23 cycles
+
     //Assigns input values to ends of row/col mesh
     generate
         for (genvar i = 0; i < 8; i++) begin : input_map
@@ -42,7 +44,7 @@ module systollic_v3(
             end
         end
     endgenerate
-
+    
     //---------------MAC EN COUNTER LOGIC UPDATE-----------//
     //When sys_arr recieves en (coordinated by top to come wtih first Ain/Bin), begin counter that enables MAC units
     //Creates a diaganol wavefront when EN is triggered
@@ -51,21 +53,17 @@ module systollic_v3(
     always_ff @(posedge clk) begin
         if (rst) begin
             en_cycles <= '0;
-            $display("SYSTOLLIC RST ENABLED");
+            cycle_pass <= '0;
         end else if (en) begin //UPDATE: defend against stall corruptions
             if (en_cycles < 5'd23) 
                 en_cycles <= en_cycles + 1'b1;
-            else
+            else begin
                 en_cycles <= '0;
+                cycle_pass <= 1'b1;
+            end
         end
-
-        //$display("Sys Ain %p, Sys Bin %p", Ain, Bin);
-        $display("Sys MAC [0,0]: Cycle: %0d, Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", en_cycles, row[0][0], col[0][0], internal_results[0][0], internal_depths[0][0], mac_en[0][0]);
-        //$display("MAC [7,0]: Ain = %0d, Bin = %0d, Acc = %0d, Depth: %0d, .en %0d\n", row[7][0], col[7][0], internal_results[7][0], internal_depths[7][0], mac_en[7][0]);*/
-
     end
 
-    //------------------MAC_EN ASSIGNMENT--------------------------//
     //------------------RESULTS ASSIGNMENT LOGIC-------------------//
     //Assign each mac_en "wavefront" to corresponding mac_en_counter value
     always_comb begin
@@ -77,13 +75,14 @@ module systollic_v3(
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin
                 // Enable PEs during their active 8-cycle window
-                if (en_cycles >= (i + j) && (en_cycles != '0 || en)) 
+                if ((en_cycles >= (i + j) || cycle_pass) && (en_cycles != '0 || en)) 
                     mac_en[i][j] = 1'b1;
             end
 
 
-            if((en_cycles >= (i+8)))
+            if((en_cycles >= (i+8)) || cycle_pass) begin
                 results[i] = internal_results[i][(en_cycles - i) % 8];
+            end
         end
     end
 

@@ -9,10 +9,9 @@ class MP_scoreboard extends uvm_scoreboard;
     uvm_analysis_imp_matrix #(matrix_tx, MP_scoreboard) matrix_imp;
     uvm_analysis_imp_pkt #(pkt_tx, MP_scoreboard) pkt_imp;
 
-    MP_reference rf_arr [4];
-    int load_delay_cnt [4];
-    int load_counter = 0;
-    int contributors;
+    MP_reference rf_arr [4]; //array of reference objects, stitched by scb
+    int load_counter = 0; //counts which array value to load into
+    int contributors; //checks for overlapping multiplexing
 
     int num_mismatch = 0;
     int num_match = 0;
@@ -20,56 +19,50 @@ class MP_scoreboard extends uvm_scoreboard;
     pkt_tx expected_tx;
     
 
-    // REMOVED: sys_en_delayed. 
     function new(string name = "MP_scoreboard", uvm_component parent);
         super.new(name, parent);
         matrix_imp = new("matrix_imp", this);
         pkt_imp = new("pkt_imp", this);
 
+        //inits each reference object as 0
         foreach (rf_arr[i]) begin
             matrix_tx temp_mat = new("temp_mat");
             temp_mat.A_matrix = '{default: 8'h00};
             temp_mat.B_matrix = '{default: 8'h00};
             rf_arr[i] = new(temp_mat);
-            load_delay_cnt[i] = 0;
         end
     endfunction
 
+    //loads matrix from driver into scb to be split and computed into references
     function void write_matrix (matrix_tx matrix);
-        $display("New matrix loaded in at %0d", (load_counter % 4));
         rf_arr[load_counter % 4] = new(matrix);
-
-        load_delay_cnt[load_counter % 4] = 0; 
-
         load_counter++;
     endfunction
 
+    //Pkt from monitor written
     function void write_pkt (pkt_tx mon_tx);
+
+        //reset logic
         if (mon_tx.rst) begin
-            $display("RST ENABLED");
             foreach (rf_arr[i]) begin
                 matrix_tx temp_mat = new("temp_mat");
                 rf_arr[i] = new(temp_mat);
-                load_delay_cnt[i] = 0;
             end
             return;
         end
 
+        //streaming reference objects based on loading timing
         foreach (rf_arr[i]) begin
             if (i < load_counter && mon_tx.en) begin
-                if (load_delay_cnt[i] >= 0) begin
-                    rf_arr[i].stream_output();
-                    //$display("SCB: rf_arr[%0d] results: %p", i, rf_arr[i].pkt.results);
-                    //$display("Active Index: %p, Pipeline Depth %d\n", rf_arr[i].active_idx, rf_arr[i].pipeline_counter);
-                end else begin
-                    load_delay_cnt[i]++;
-                end
+                rf_arr[i].stream_output();
             end
         end
-
+        
+        //creates expected tx reference object
         expected_tx = pkt_tx::type_id::create("expected_tx");
         expected_tx.results = '{default: '0};
 
+        //check for overlapping contributors
         foreach (expected_tx.results[i]) begin
             contributors = 0;
             if (rf_arr[0].active_idx[i]) contributors++;
@@ -88,11 +81,12 @@ class MP_scoreboard extends uvm_scoreboard;
             else expected_tx.results[i] = 0;
         end
 
-        $display("Expected: %p", expected_tx.results);
-        $display("Actual: %p", mon_tx.results);
+        
         if (expected_tx.results != mon_tx.results) begin
             num_mismatch++;
             $display("SCB_CMP Mismatch!\n");
+            $display("Expected: %p", expected_tx.results);
+            $display("Actual: %p", mon_tx.results);
         end else begin
             num_match++;
         end

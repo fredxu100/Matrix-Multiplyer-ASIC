@@ -43,9 +43,6 @@ class MP_driver extends uvm_driver #(matrix_tx);
  
         forever begin
             seq_item_port.get_next_item(tx);
-            $display("DRV: Matrix A %p", tx.A_matrix);
-            $display ("DRV: Matrix B %p", tx.B_matrix);
-            
 
             // Wait for the clock BEFORE driving anything
             for (int i = 0; i < 8; i++) begin         
@@ -58,7 +55,7 @@ class MP_driver extends uvm_driver #(matrix_tx);
                 vif.drv_cb.Ain2 <= {tx.A_matrix[i][7], tx.A_matrix[i][6], tx.A_matrix[i][5], tx.A_matrix[i][4]};
                 vif.drv_cb.Bin1 <= {tx.B_matrix[i][3], tx.B_matrix[i][2], tx.B_matrix[i][1], tx.B_matrix[i][0]};
                 vif.drv_cb.Bin2 <= {tx.B_matrix[i][7], tx.B_matrix[i][6], tx.B_matrix[i][5], tx.B_matrix[i][4]};
-                
+
                 vif.drv_cb.rst  <= tx.rst;
                 vif.drv_cb.en   <= tx.en;
             end

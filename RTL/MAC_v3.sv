@@ -25,7 +25,6 @@ module MAC_v3 (
             end
         end
 
-        //$display("MAC| Ain: %0d, Bin %0d, En %0d, Rst %0d", ain, bin, en, rst);
     end
 
     logic [15:0] mul_out;
