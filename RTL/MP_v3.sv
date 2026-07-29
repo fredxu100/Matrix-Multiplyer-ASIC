@@ -52,20 +52,11 @@ module MP_v3(
             A <= '{default: '0};
             B <= '{default: '0};
             load_counter <= '0;
-            $display("MP_V3 RST ENABLED");
         end else if (en) begin
             A[load_counter] <= '{Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
             B[load_counter] <= '{Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
             if (load_counter != 3'b111) begin
                 load_counter <= load_counter + 1'b1; //counter counts to 8
-                /*$display("Ain1: %0d, %0d, %0d, %0d", Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]);
-                $display("Ain2: %0d, %0d, %0d, %0d", Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0]);
-                $display("Bin1: %0d, %0d, %0d, %0d", Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]);
-                $display("Bin2: %0d, %0d, %0d, %0d", Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0]);*/
-                if (load_counter == '0) begin
-                    $display("A: %p", A);
-                    $display ("B: %p", B);
-                end
             end else begin 
                 load_counter <= '0;
             end

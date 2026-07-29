@@ -71,7 +71,7 @@ class MP_scoreboard extends uvm_scoreboard;
             if (rf_arr[3].active_idx[i]) contributors++;
 
             if (contributors > 1) begin
-                $display("SCB OVERLAP: More than one reference stage is driving results[%0d]", i);
+                `uvm_error("SCB_OVERLAP", $sformatf("More than one reference stage is driving results[%0d]", i))
             end
 
             if (rf_arr[0].active_idx[i]) expected_tx.results[i] = rf_arr[0].pkt.results[i];
@@ -84,9 +84,8 @@ class MP_scoreboard extends uvm_scoreboard;
         
         if (expected_tx.results != mon_tx.results) begin
             num_mismatch++;
-            $display("SCB_CMP Mismatch!\n");
-            $display("Expected: %p", expected_tx.results);
-            $display("Actual: %p", mon_tx.results);
+            `uvm_error("SCB_CMP", $sformatf("Mismatch!\n  Expected: %p\n  Actual:   %p", 
+                                expected_tx.results, mon_tx.results))
         end else begin
             num_match++;
         end

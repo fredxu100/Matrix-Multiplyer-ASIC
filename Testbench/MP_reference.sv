@@ -49,8 +49,6 @@ class MP_reference;
                 end
             end
         end
-
-        $display("REF EXPECTED MATRIX: %p", matrix.results_matrix);
     endfunction
 
 endclass

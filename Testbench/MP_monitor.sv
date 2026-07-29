@@ -35,11 +35,6 @@ class MP_monitor extends uvm_monitor;
             pkt.Bin1 = vif.mon_cb.Bin1;
             pkt.Bin2 = vif.mon_cb.Bin2;
 
-            /*$display("Ain1: %0d, %0d, %0d, %0d", vif.mon_cb.Ain1[7:0], vif.mon_cb.Ain1[15:8], vif.mon_cb.Ain1[23:16], vif.mon_cb.Ain1[31:24]);
-            $display("Ain2: %0d, %0d, %0d, %0d", vif.mon_cb.Ain2[7:0], vif.mon_cb.Ain2[15:8], vif.mon_cb.Ain2[23:16], vif.mon_cb.Ain2[31:24]);
-            $display("Bin1: %0d, %0d, %0d, %0d", vif.mon_cb.Bin1[7:0], vif.mon_cb.Bin1[15:8], vif.mon_cb.Bin1[23:16], vif.mon_cb.Bin1[31:24]);
-            $display("Bin2: %0d, %0d, %0d, %0d", vif.mon_cb.Bin2[7:0], vif.mon_cb.Bin2[15:8], vif.mon_cb.Bin2[23:16], vif.mon_cb.Bin2[31:24]);*/
-            
             pkt_ap.write(pkt);
         end
     endtask

@@ -7,11 +7,6 @@ class MP_driver extends uvm_driver #(matrix_tx);
     matrix_tx tx;
     virtual MP_intf.drv_if vif;
     uvm_analysis_port #(matrix_tx) matrix_ap;
-    
-    /*logic [7:0] temp_Ain1 [3:0];
-    logic [7:0] temp_Ain2 [3:0];
-    logic [7:0] temp_Bin1 [3:0];
-    logic [7:0] temp_Bin2 [3:0];*/
  
     function new(string name = "MP_driver", uvm_component parent);
         super.new(name, parent);
