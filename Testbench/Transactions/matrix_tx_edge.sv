@@ -1,17 +1,13 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-class matrix_edge_tx extends uvm_sequence_item;
-    `uvm_object_utils(matrix_edge_tx)
+class matrix_tx_edge extends matrix_tx;
+    `uvm_object_utils(matrix_tx_edge)
 
     rand logic [7:0] A_matrix [7:0][7:0];
     rand logic [7:0] B_matrix [7:0][7:0];
-    logic [18:0] results_matrix [7:0][7:0];
 
-    logic rst = 1'b0;
-    logic en = 1'b1;
-
-    function new (string name = "matrix_edge_tx");
+    function new (string name = "matrix_tx_edge");
         super.new(name);
     endfunction
 

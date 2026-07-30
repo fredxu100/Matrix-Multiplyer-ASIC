@@ -10,8 +10,8 @@ class matrix_tx extends uvm_sequence_item;
 
     // NOTE: added - MP_driver drives tx.rst / tx.en for the full 8-cycle load,
     // but those fields never existed on this class (compile error).
-    logic rst = 1'b0;
-    logic en = 1'b1;
+    logic rst [7:0] = '{default: 1'b0};
+    logic en [7:0] = '{default: 1'b1};
 
     function new (string name = "matrix_tx");
         super.new(name);

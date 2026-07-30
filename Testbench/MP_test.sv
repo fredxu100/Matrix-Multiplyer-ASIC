@@ -13,6 +13,9 @@ class MP_test extends uvm_test;
     endfunction
 
     function void build_phase (uvm_phase phase);
+        //MATRIX TYPE OVERRIDE FOR DIFFERENT TRANSACTIONS
+        set_type_override_by_type(matrix_tx::get_type(), matrix_tx_en::get_type()); 
+        
         super.build_phase(phase);
         env = MP_environment::type_id::create("MP_env", this);
         if (!uvm_config_db#(virtual MP_intf)::get(this, "", "vif", vif)) begin
@@ -21,7 +24,7 @@ class MP_test extends uvm_test;
     endfunction
 
     task run_phase (uvm_phase phase);
-        int max_attempts = 10;
+        int max_attempts = 1000;
         int attempts = 0;
         phase.raise_objection(this);
 
@@ -33,8 +36,6 @@ class MP_test extends uvm_test;
         end
 
         // Drain: let the last transactions flush through the DUT/reference
-        // pipeline (~22+ cycles deep, see systollic_v3 en_cycles) before we
-        // stop driving/checking, or the tail end of the test goes unchecked.
         repeat (40) @(posedge vif.clk);
 
         phase.drop_objection(this);
