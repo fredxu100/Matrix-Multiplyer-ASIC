@@ -1,7 +1,7 @@
 module MP_v3(
     input logic clk, rst, en,
     input logic [31:0] Ain1, Ain2, Bin1, Bin2,
-    output logic [18:0] results [7:0]
+    output logic [151:0] results //MODIFY SCOREBOARD
 );
 //NOTE: A SENT BY ROWS, B !!MUST!! BE SENT IN BY COLUMNS (col1, col2, etc)
 
@@ -15,13 +15,13 @@ module MP_v3(
 //A/B: Ain1/Bin1 is LSB, Ain2/Bin2 is MSB. 1 gets sent to array before 2
 
     //Loads row1 (A), col1 (B), staggers the loading 
-    logic [7:0] A [7:0][7:0];
-    logic [7:0] B [7:0][7:0];
+    logic [511:0] A; // A[row][col] -> 8-bit byte, all dims now packed
+    logic [511:0] B; // B[col][row] -> 8-bit byte, all dims now packed
 
-    logic [7:0] A_sys_in [7:0];
-    logic [7:0] B_sys_in [7:0];
+    logic [63:0] A_sys_in;
+    logic [63:0] B_sys_in;
     logic sys_en;
-
+    
     //-------------------SYSTOLLIC ARRAY DECLERATION---------------------//
 
     systollic_v3 sys_arr(
@@ -49,12 +49,12 @@ module MP_v3(
     logic [2:0] load_counter = '0;
     always_ff @(posedge clk) begin
         if (rst) begin
-            A <= '{default: '0};
-            B <= '{default: '0};
+            A <= '0;
+            B <= '0;
             load_counter <= '0;
         end else if (en) begin
-            A[load_counter] <= '{Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
-            B[load_counter] <= '{Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
+            A[load_counter * 64 +: 64] <= {Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
+            B[load_counter * 64 +: 64] <= {Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
             if (load_counter != 3'b111) begin
                 load_counter <= load_counter + 1'b1; //counter counts to 8
             end else begin 
@@ -83,16 +83,16 @@ module MP_v3(
     always_comb begin
         for (int j = 0; j < 8; j++) begin
             if (!sys_en) begin
-                A_sys_in[j] = '0;
-                B_sys_in[j] = '0;
+                A_sys_in[j*8 +: 8] = '0;
+                B_sys_in[j*8 +: 8] = '0;
             end
             else if (i < j) begin
-                A_sys_in[j] = A[j][8 + i - j];
-                B_sys_in[j] = B[j][8 + i - j];
+                A_sys_in[j*8 +: 8] = A[(j*8 + (8 + i - j))*8 +: 8];
+                B_sys_in[j*8 +: 8] = B[(j*8 + (8 + i - j))*8 +: 8];
             end
             else begin
-                A_sys_in[j] = A[j][i - j];
-                B_sys_in[j] = B[j][i - j];
+                A_sys_in[j*8 +: 8] = A[(j*8 + (i - j))*8 +: 8];
+                B_sys_in[j*8 +: 8] = B[(j*8 + (i - j))*8 +: 8];
             end
         end
     end

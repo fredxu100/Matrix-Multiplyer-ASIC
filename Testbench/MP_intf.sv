@@ -2,7 +2,7 @@ interface MP_intf (input logic clk);
 
     logic rst, en;
     logic [31:0] Ain1, Ain2, Bin1, Bin2;
-    logic [18:0] results [7:0];
+    logic [151:0] results;
 
     clocking drv_cb @(posedge clk);
         default output #1ns;

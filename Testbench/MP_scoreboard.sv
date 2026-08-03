@@ -60,10 +60,10 @@ class MP_scoreboard extends uvm_scoreboard;
         
         //creates expected tx reference object
         expected_tx = pkt_tx::type_id::create("expected_tx");
-        expected_tx.results = '{default: '0};
+        expected_tx.results = '0;
 
         //check for overlapping contributors
-        foreach (expected_tx.results[i]) begin
+        for (int i = 0; i < 8; i++) begin
             contributors = 0;
             if (rf_arr[0].active_idx[i]) contributors++;
             if (rf_arr[1].active_idx[i]) contributors++;
@@ -74,11 +74,11 @@ class MP_scoreboard extends uvm_scoreboard;
                 `uvm_error("SCB_OVERLAP", $sformatf("More than one reference stage is driving results[%0d]", i))
             end
 
-            if (rf_arr[0].active_idx[i]) expected_tx.results[i] = rf_arr[0].pkt.results[i];
-            else if (rf_arr[1].active_idx[i]) expected_tx.results[i] = rf_arr[1].pkt.results[i];
-            else if (rf_arr[2].active_idx[i]) expected_tx.results[i] = rf_arr[2].pkt.results[i];
-            else if (rf_arr[3].active_idx[i]) expected_tx.results[i] = rf_arr[3].pkt.results[i];
-            else expected_tx.results[i] = 0;
+            if (rf_arr[0].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[0].pkt.results[i*19 +: 19];
+            else if (rf_arr[1].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[1].pkt.results[i*19 +: 19];
+            else if (rf_arr[2].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[2].pkt.results[i*19 +: 19];
+            else if (rf_arr[3].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[3].pkt.results[i*19 +: 19];
+            else expected_tx.results[i*19 +: 19] = 0;
         end
 
         
