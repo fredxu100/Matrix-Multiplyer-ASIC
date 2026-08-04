@@ -37,8 +37,7 @@ module systollic_v3(
                     .bin(col[r][c]),
                     .aout(row[r][c+1]),
                     .bout(col[r+1][c]),
-                    .accumulator(internal_results[r][c]),
-                    .matrix_depth(internal_depths[r][c])
+                    .accumulator(internal_results[r][c])
                 );
             end
         end
@@ -63,12 +62,33 @@ module systollic_v3(
         end
     end
 
-    //------------------MAC_EN ASSIGNMENT--------------------------//
+    //-----------------READ PTR ASSIGNMENT LOGIC--------------------//
+    //Yosys synthesis rules, replaces modulo on results assignment and ABC combinational loop
+    logic [2:0] read_ptr [7:0];
+
+    always_ff @(posedge clk) begin
+        if (rst) begin
+            for (int i = 0; i < 8; i++) begin
+                read_ptr[i] <= '0;
+            end
+        end else if (en) begin 
+            for (int i = 0; i < 8; i++) begin
+                if ((en_cycles >= (i + 8)) || cycle_pass) begin
+                    read_ptr[i] <= read_ptr[i] + 1'b1;
+                end
+            end
+        end
+    end
+
     //------------------RESULTS ASSIGNMENT LOGIC-------------------//
     //Assign each mac_en "wavefront" to corresponding mac_en_counter value
     always_comb begin
         // 1. Default assignments to prevent synthesis latches
-        mac_en = '{default: 0};
+        for (int i = 0; i < 8; i++) begin
+            for (int j = 0; j < 8; j++) begin
+                mac_en[i][j] = '0;
+            end
+        end
         results = '0;
 
         // 2. Combined Enable & Streaming Logic
@@ -79,9 +99,9 @@ module systollic_v3(
                     mac_en[i][j] = 1'b1;
             end
 
-
-            if((en_cycles >= (i+8)) || cycle_pass)
-                results[i*19 +: 19] = internal_results[i][(en_cycles - i) % 8];
+            if ((en_cycles >= (i + 8)) || cycle_pass) begin
+                results[i*19 +: 19] = internal_results[i][read_ptr[i]];
+            end
         end
     end
 

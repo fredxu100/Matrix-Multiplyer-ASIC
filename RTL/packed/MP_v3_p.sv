@@ -48,12 +48,33 @@ module MP_v3(
     logic [2:0] load_counter = '0;
     always_ff @(posedge clk) begin
         if (rst) begin
-            A <= '{default: '0};
-            B <= '{default: '0};
+            for (int i = 0; i < 8; i++) begin
+                for (int j = 0; j < 8; j++) begin
+                    A[i][j] <= '0;
+                    B[i][j] <= '0;
+                end
+            end
             load_counter <= '0;
         end else if (en) begin
-            A[load_counter] <= '{Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
-            B[load_counter] <= '{Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
+            //MANUAL LOADING FOR YOSYS SYNTH
+            A[load_counter][7] <= Ain2[31:24];
+            A[load_counter][6] <= Ain2[23:16];
+            A[load_counter][5] <= Ain2[15:8];
+            A[load_counter][4] <= Ain2[7:0];
+            A[load_counter][3] <= Ain1[31:24];
+            A[load_counter][2] <= Ain1[23:16];
+            A[load_counter][1] <= Ain1[15:8];
+            A[load_counter][0] <= Ain1[7:0];
+
+            B[load_counter][7] <= Bin2[31:24];
+            B[load_counter][6] <= Bin2[23:16];
+            B[load_counter][5] <= Bin2[15:8];
+            B[load_counter][4] <= Bin2[7:0];
+            B[load_counter][3] <= Bin1[31:24];
+            B[load_counter][2] <= Bin1[23:16];
+            B[load_counter][1] <= Bin1[15:8];
+            B[load_counter][0] <= Bin1[7:0];
+
             if (load_counter != 3'b111) begin
                 load_counter <= load_counter + 1'b1; //counter counts to 8
             end else begin 
