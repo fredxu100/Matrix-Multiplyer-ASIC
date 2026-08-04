@@ -17,7 +17,7 @@ class MP_reference;
     //!!!!DOUBLE CHECK THIS STREAM LOGIC DELAY WITH THE DRIVER/MONITOR DELAY!!!!!
     function void stream_output();
         //assigns each value to 0 of results, assists with | multiplexing
-        pkt.results = '0;
+        foreach(pkt.results[idx]) pkt.results[idx] = '0;
         active_idx = '{default: 1'b0};  // reset all defensive multiplexing checks
 
         //stream_output called when sys_arr is enabled
@@ -28,7 +28,7 @@ class MP_reference;
                 for (int k = 0; k < 8; k++) begin
                     if (j + k == i) begin 
                         //tracks internal matrix and selects diaganol values to simulate staggered pipeline
-                        pkt.results[j*19 +: 19] = matrix.results_matrix[j][k];
+                        pkt.results[j] = matrix.results_matrix[j][k];
                         active_idx[j] = 1'b1;  // mark this index as active
                     end
                 end
@@ -49,6 +49,8 @@ class MP_reference;
                 end
             end
         end
+
+        $display("REF EXPECTED MATRIX: %p", matrix.results_matrix);
     endfunction
 
 endclass

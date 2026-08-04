@@ -17,7 +17,6 @@ class MP_scoreboard extends uvm_scoreboard;
     int num_match = 0;
     
     pkt_tx expected_tx;
-    
 
     function new(string name = "MP_scoreboard", uvm_component parent);
         super.new(name, parent);
@@ -41,7 +40,6 @@ class MP_scoreboard extends uvm_scoreboard;
 
     //Pkt from monitor written
     function void write_pkt (pkt_tx mon_tx);
-
         //reset logic
         if (mon_tx.rst) begin
             foreach (rf_arr[i]) begin
@@ -60,10 +58,10 @@ class MP_scoreboard extends uvm_scoreboard;
         
         //creates expected tx reference object
         expected_tx = pkt_tx::type_id::create("expected_tx");
-        expected_tx.results = '{default: '0};
+        expected_tx.results = '0;
 
         //check for overlapping contributors
-        foreach (expected_tx.results[i]) begin
+        for(int i = 0; i < 8; i++) begin
             contributors = 0;
             if (rf_arr[0].active_idx[i]) contributors++;
             if (rf_arr[1].active_idx[i]) contributors++;
@@ -74,19 +72,18 @@ class MP_scoreboard extends uvm_scoreboard;
                 $display("SCB OVERLAP: More than one reference stage is driving results[%0d]", i);
             end
 
-            if (rf_arr[0].active_idx[i]) expected_tx.results[i] = rf_arr[0].pkt.results[i];
-            else if (rf_arr[1].active_idx[i]) expected_tx.results[i] = rf_arr[1].pkt.results[i];
-            else if (rf_arr[2].active_idx[i]) expected_tx.results[i] = rf_arr[2].pkt.results[i];
-            else if (rf_arr[3].active_idx[i]) expected_tx.results[i] = rf_arr[3].pkt.results[i];
-            else expected_tx.results[i] = 0;
+            if (rf_arr[0].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[0].pkt.results[i*19 +: 19];
+            else if (rf_arr[1].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[1].pkt.results[i*19 +: 19];
+            else if (rf_arr[2].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[2].pkt.results[i*19 +: 19];
+            else if (rf_arr[3].active_idx[i]) expected_tx.results[i*19 +: 19] = rf_arr[3].pkt.results[i*19 +: 19];
+            else expected_tx.results[i*19 +: 19] = 0;
         end
 
-        
+        $display ("\nExpected: %0d, %0d, %0d, %0d, %0d, %0d, %0d, %0d", expected_tx.results[151:133], expected_tx.results[132:114], expected_tx.results[113:95], expected_tx.results[94:76], expected_tx.results[75:57],  expected_tx.results[56:38], expected_tx.results[37:19], expected_tx.results[18:0]);
+        $display ("Actual: %0d, %0d, %0d, %0d, %0d, %0d, %0d, %0d", mon_tx.results[151:133], mon_tx.results[132:114], mon_tx.results[113:95], mon_tx.results[94:76], mon_tx.results[75:57],  mon_tx.results[56:38], mon_tx.results[37:19], mon_tx.results[18:0]);
         if (expected_tx.results != mon_tx.results) begin
             num_mismatch++;
-            $display("SCB_CMP Mismatch!\n");
-            $display("Expected: %p", expected_tx.results);
-            $display("Actual: %p", mon_tx.results);
+            $display("SCB_CMP Mismatch!");
         end else begin
             num_match++;
         end

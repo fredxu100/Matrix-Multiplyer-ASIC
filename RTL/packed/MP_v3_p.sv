@@ -1,10 +1,9 @@
 module MP_v3(
     input logic clk, rst, en,
     input logic [31:0] Ain1, Ain2, Bin1, Bin2,
-    output logic [151:0] results //MODIFY SCOREBOARD
+    output logic [151:0] results
 );
 //NOTE: A SENT BY ROWS, B !!MUST!! BE SENT IN BY COLUMNS (col1, col2, etc)
-
 
 //UPDATE: Singular buffer unit (no longer 16 seperate buffers coordinated by top), modified load/store logic
 //Loads in 4 RISC register values (4 x 32 bits) to get each cycle's values to send into the systollic array
@@ -15,13 +14,13 @@ module MP_v3(
 //A/B: Ain1/Bin1 is LSB, Ain2/Bin2 is MSB. 1 gets sent to array before 2
 
     //Loads row1 (A), col1 (B), staggers the loading 
-    logic [511:0] A; // A[row][col] -> 8-bit byte, all dims now packed
-    logic [511:0] B; // B[col][row] -> 8-bit byte, all dims now packed
+    logic [7:0] A [7:0][7:0];
+    logic [7:0] B [7:0][7:0];
 
     logic [63:0] A_sys_in;
     logic [63:0] B_sys_in;
     logic sys_en;
-    
+
     //-------------------SYSTOLLIC ARRAY DECLERATION---------------------//
 
     systollic_v3 sys_arr(
@@ -49,12 +48,12 @@ module MP_v3(
     logic [2:0] load_counter = '0;
     always_ff @(posedge clk) begin
         if (rst) begin
-            A <= '0;
-            B <= '0;
+            A <= '{default: '0};
+            B <= '{default: '0};
             load_counter <= '0;
         end else if (en) begin
-            A[load_counter * 64 +: 64] <= {Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
-            B[load_counter * 64 +: 64] <= {Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
+            A[load_counter] <= '{Ain2[31:24], Ain2[23:16], Ain2[15:8], Ain2[7:0], Ain1[31:24], Ain1[23:16], Ain1[15:8], Ain1[7:0]};
+            B[load_counter] <= '{Bin2[31:24], Bin2[23:16], Bin2[15:8], Bin2[7:0], Bin1[31:24], Bin1[23:16], Bin1[15:8], Bin1[7:0]};
             if (load_counter != 3'b111) begin
                 load_counter <= load_counter + 1'b1; //counter counts to 8
             end else begin 
@@ -87,12 +86,12 @@ module MP_v3(
                 B_sys_in[j*8 +: 8] = '0;
             end
             else if (i < j) begin
-                A_sys_in[j*8 +: 8] = A[(j*8 + (8 + i - j))*8 +: 8];
-                B_sys_in[j*8 +: 8] = B[(j*8 + (8 + i - j))*8 +: 8];
+                A_sys_in[j*8 +: 8] = A[j][8 + i - j];
+                B_sys_in[j*8 +: 8] = B[j][8 + i - j];
             end
             else begin
-                A_sys_in[j*8 +: 8] = A[(j*8 + (i - j))*8 +: 8];
-                B_sys_in[j*8 +: 8] = B[(j*8 + (i - j))*8 +: 8];
+                A_sys_in[j*8 +: 8] = A[j][i - j];
+                B_sys_in[j*8 +: 8] = B[j][i - j];
             end
         end
     end

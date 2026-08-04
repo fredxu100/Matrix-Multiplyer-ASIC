@@ -14,7 +14,7 @@ class MP_test extends uvm_test;
 
     function void build_phase (uvm_phase phase);
         //MATRIX TYPE OVERRIDE FOR DIFFERENT TRANSACTIONS
-        set_type_override_by_type(matrix_tx::get_type(), matrix_tx_en::get_type()); 
+        //set_type_override_by_type(matrix_tx::get_type(), matrix_tx_en::get_type()); 
         
         super.build_phase(phase);
         env = MP_environment::type_id::create("MP_env", this);

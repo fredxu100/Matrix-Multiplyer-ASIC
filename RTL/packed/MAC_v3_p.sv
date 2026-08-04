@@ -2,15 +2,14 @@ module MAC_v3 (
     input logic [7:0] ain, bin, 
     input logic clk, en, rst, 
     output logic [7:0] aout, bout,
-    output logic [18:0] accumulator
+    output logic [18:0] accumulator,
+    output logic [2:0] matrix_depth
 );  
     //Takes in ain and bin, passes directly to aout/bout on next clock cycle
     //ain * bin + accumulator to store value
     //systollic array passes en to individual MAC2
 
     // 1. Data Passthrough (Registers)
-    logic [2:0] matrix_depth;
-
     always_ff @(posedge clk) begin
         if (rst) begin //clear aout/bout if rst
             matrix_depth <= '0;
@@ -37,9 +36,9 @@ module MAC_v3 (
             accumulator <= '0;
         end else if (en) begin
             if (matrix_depth == 0) //THIS LIKELY TPD
-                accumulator <= {3'b0, mul_out};
+                accumulator <= mul_out;
             else
-                accumulator <= accumulator + {3'b0, mul_out};
+                accumulator <= accumulator + mul_out;
         end
     end
     
