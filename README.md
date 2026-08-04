@@ -10,14 +10,7 @@ An 8x8 systolic array hardware accelerator designed as an ASIC peripheral. The d
 * **Host Interface:** Asynchronous/Synchronous FIFO interface bridging data movement between the host RISC-V core and the matrix array.
 * **Pipelined Execution:** Data streams through processing elements concurrently to maximize compute throughput and minimize register pressure.
 * **Target Technology Node:** SkyWater 130nm (`sky130`).
-
-### System Architecture Block Diagram
-+------------------+         +-------------------+         +-----------------------+
-|                  |         |    FIFO Buffers   |         |    8x8 Systolic Array |
-|  RISC-V Host     | <=> | (Input / Output)  | <=> |  Processing Elements  |
-|  Processor       |         |                   |         |        (PEs)          |
-+------------------+         +-------------------+         +-----------------------+
-
+  
 ---
 
 ## Verification & Testbench Framework
@@ -25,8 +18,8 @@ An 8x8 systolic array hardware accelerator designed as an ASIC peripheral. The d
 The architecture is verified using a Universal Verification Methodology (**UVM**) testbench framework to ensure functional correctness and robust coverage.
 
 * **Verification Methodology:** UVM (SystemVerilog)
-* **Scoreboard & Predictor:** Reference model tracking floating/integer matrix calculations against DUT output.
-* **Coverage:** Constrained-random stimulus generation focusing on boundary values, back-to-back FIFO transfers, and full-throughput matrix streams.
+* **Scoreboard & Predictor:** Reference model tracking expected matrix calculations streamed against DUT output.
+* **Coverage:** Constrained-random stimulus generation focusing on boundary values, back-to-back transactions, and full-throughput matrix streams.
 
 ---
 
