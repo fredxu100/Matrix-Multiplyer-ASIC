@@ -95,7 +95,7 @@ module systollic_v3(
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin
                 // Enable PEs during their active 8-cycle window
-                if ((en_cycles >= (i + j) || cycle_pass) && (en_cycles != '0 || en)) 
+                if (en && (en_cycles >= (i + j) || cycle_pass))
                     mac_en[i][j] = 1'b1;
             end
 

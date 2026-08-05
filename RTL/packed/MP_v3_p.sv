@@ -41,7 +41,6 @@ module MP_v3(
         end
     end
 
-
     //--------------------LOAD LOGIC-----------------------//
     //UPDATE: Loading logic is now pipelined, does not stall
     //counter loads rows of A/B depending on counter value
@@ -101,14 +100,17 @@ module MP_v3(
     // en_cycles/mac_en in systollic_v3 react to sys_en the instant it asserts,
     // so A_sys_in/B_sys_in must be valid that SAME cycle, not one cycle later.
     always_comb begin
+        A_sys_in = '0;
+        B_sys_in = '0;
+
         for (int j = 0; j < 8; j++) begin
             if (!sys_en) begin
                 A_sys_in[j*8 +: 8] = '0;
                 B_sys_in[j*8 +: 8] = '0;
             end
             else if (i < j) begin
-                A_sys_in[j*8 +: 8] = A[j][8 + i - j];
-                B_sys_in[j*8 +: 8] = B[j][8 + i - j];
+                A_sys_in[j*8 +: 8] = A[j][8 - (j - i)];
+                B_sys_in[j*8 +: 8] = B[j][8 - (j - i)];
             end
             else begin
                 A_sys_in[j*8 +: 8] = A[j][i - j];
