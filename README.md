@@ -40,12 +40,13 @@ Physical design and implementation are currently underway for the SkyWater 130nm
 ## Directory Structure
 
 ```text
-├── rtl/                 # Verilog / SystemVerilog RTL design sources
+├── RTL/                 # Verilog / SystemVerilog RTL design sources
 │   ├── MAC_v3.sv        # Individual Processing Element
 │   ├── systollic_v3.sv  # 8x8 Systolic Array Core
 │   └── MP_v3.sv         # RISC-V Interface
-├── dv/                  # UVM Verification environment
-│   ├── tesbench/        # UVM Agents, Drivers, Monitors, Scoreboard, etc
+├── Testbench/           # UVM Verification environment
+│   ├── testbench files  # UVM Agents, Drivers, Monitors, Scoreboard, etc
 │   └── transactions/    # UVM Testcases, transactions, and sequences
+├── Tcl/                 # PD constraints files
 ├── docs/                # Architecture spec and documentation
 └── README.md
